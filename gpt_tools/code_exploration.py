@@ -101,19 +101,35 @@ def find_function_signatures(file_path: str, language: str) -> List[Tuple[int, s
 def extract_function_content(
     signature: str, content: List[str], language: str
 ) -> List[str]:
+    """
+    Extracts the content of a function given its signature and the content of the file.
+
+    Args:
+        signature (str): The function signature.
+        content (List[str]): The content of the file.
+        language (str): The programming language.
+
+    Returns:
+        List[str]: The lines of code that make up the function.
+    """
+    # Find the start line of the function
     start_line = None
     for idx, line in enumerate(content):
         if signature in line:
             start_line = idx
             break
+
     if start_line is None:
         return None
+
+    # Depending on the language, find the end line of the function
     if language == "javascript":
         end_line = start_line
         brace_count = 0
         for idx, line in enumerate(content[start_line:]):
             brace_count += line.count("{")
             brace_count -= line.count("}")
+            # End line of the function is when the count of opening and closing braces is equal
             if brace_count == 0:
                 end_line = start_line + idx
                 break
@@ -125,4 +141,6 @@ def extract_function_content(
             if current_indent <= initial_indent and line.strip():
                 end_line = start_line + idx
                 break
+
+    # Return the content of the function
     return content[start_line : end_line + 1]
