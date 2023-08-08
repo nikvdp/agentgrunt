@@ -1,9 +1,10 @@
-import os
-from pathlib import Path
 import shutil
 import tempfile
+from pathlib import Path
+from textwrap import dedent
 
 import typer
+from plumbum import local
 
 from repo_mgmt import clone_git_repo_to_temp_dir
 from utils import create_tarball, download_file, move_directory
@@ -64,7 +65,35 @@ def build(
     tarball = create_tarball(output_dir, tarball_path)
     destination = Path.cwd() / f"{src_dir.resolve().name}.tar.gz"
     shutil.move(str(tarball), str(destination))
-    print(f"Tarball moved to '{destination}'")
+
+    final_msg = dedent(
+        f"""
+        Wrote archive to: {destination}
+
+        Please upload this file to ChatGPT, and paste the following message into the chat:
+
+        """
+    )
+
+    gpt_prompt = dedent(
+        """
+        Please extract the archive I've uploaded, read the contents of README_ai.md, and 
+        follow the directions listed inside that file.
+    """
+    )
+
+    print(final_msg)
+    print("---", "\n", gpt_prompt, "---")
+
+    if shutil.which("pbcopy"):
+        # prompt user if they want to copy it and reveal the file, then do it if they say yes
+        copy = typer.confirm("Copy the message to your clipboard?")
+        if copy:
+            pbcopy = local["pbcopy"]
+            echo = local["echo"]
+            (echo[gpt_prompt] | pbcopy)()
+        if typer.confirm("Reveal the file in Finder?"):
+            local["open"]("-R", destination)
 
 
 @app.command()
