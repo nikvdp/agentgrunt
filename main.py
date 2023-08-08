@@ -30,14 +30,18 @@ def build(
         resolve_path=True,
         callback=validate_directory,
         help=f"Build a {APP_NAME} zip file from a directory",
-    )
+    ),
+    preserve_history: bool = typer.Option(
+        None, "--preserve-history", "-p", help="Preserve the full git history"
+    ),
 ):
-    temp_repo = clone_git_repo_to_temp_dir(src_dir)
+    if preserve_history is None:
+        preserve_history = False
+    temp_repo = clone_git_repo_to_temp_dir(src_dir, shallow=not preserve_history)
     print(f"Temp repo cloned to: '{temp_repo}'")
 
     tarball = tar_directory(temp_repo)
     print(f"Tarball written to '{tarball}'")
-
 
 
 @app.command()
