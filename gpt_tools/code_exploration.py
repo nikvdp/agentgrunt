@@ -81,6 +81,8 @@ def find_function_signatures(file_path: str, language: str) -> List[Tuple[int, s
         ],
         "ruby": [r"def [a-zA-Z_][\w$]*"],
         "python": [r"def [a-zA-Z_][\w$]*\("],
+        "go": [r"func [a-zA-Z_][\w$]*\("],
+        "rust": [r"fn [a-zA-Z_][\w$]*\("],
     }
 
     matches = []
