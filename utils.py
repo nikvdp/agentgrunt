@@ -57,7 +57,7 @@ def create_tarball(dir_to_tar: Path, tar_file_path: Path, compression="gz") -> P
     with tarfile.open(tar_file_path, f"w:{compression}") as tar:
         with tqdm(
             total=total_files,
-            desc=f"Compressing {dir_to_tar.name}",
+            desc=f"Compressing source dir",
             ncols=80,
             unit="file",
         ) as pbar:

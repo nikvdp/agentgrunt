@@ -38,7 +38,7 @@ def build(
     ),
 ):
     temp_repo = clone_git_repo_to_temp_dir(src_dir, shallow=not preserve_history)
-    print(f"Temp repo cloned to: '{temp_repo}'")
+    print(f"Preparing to build '{src_dir.resolve().name}'...")
 
     output_dir = Path(tempfile.mkdtemp())
 
@@ -54,8 +54,9 @@ def build(
     # ./gpt_tools/git
     git_binary_url = "https://github.com/nikvdp/1bin/releases/download/v0.0.20/git"
     git_binary_dest_path = (Path(__file__).parent / Path("gpt_tools/git")).resolve()
-    download_file(git_binary_url, git_binary_dest_path)
-    os.chmod(git_binary_dest_path, 0o755)
+    if not git_binary_dest_path.exists():
+        download_file(git_binary_url, git_binary_dest_path)
+        git_binary_dest_path.chmod(0o755)
 
     # create a tarball of output_dir, and once it's written move it to the
     # current PWD, and tell the user about it
