@@ -7,7 +7,7 @@ from plumbum.cmd import git
 from tqdm import tqdm
 
 
-def clone_git_repo_to_temp_dir(path_to_git_repo: Path) -> Path:
+def clone_git_repo_to_temp_dir(path_to_git_repo: Path, shallow: bool = True) -> Path:
     # Ensure the directory exists and contains a .git folder
     if not path_to_git_repo.exists() or not path_to_git_repo.is_dir():
         raise ValueError(f"'{path_to_git_repo}' is not a valid directory.")
@@ -17,8 +17,12 @@ def clone_git_repo_to_temp_dir(path_to_git_repo: Path) -> Path:
     # Create a temporary directory
     temp_dir = Path(tempfile.mkdtemp())
 
-    # Clone the git repo to the temporary directory (shallow clone with depth 1)
-    git["clone", "--depth", "1", path_to_git_repo, temp_dir]()
+    # Clone the git repo to the temporary directory
+    clone_command = ["clone"]
+    if shallow:
+        clone_command.extend(["--depth", "1"])
+    clone_command.extend([str(path_to_git_repo), str(temp_dir)])
+    git[clone_command]()
 
     return temp_dir
 
