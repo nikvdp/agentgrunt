@@ -1,8 +1,9 @@
 # AI Assistant Readme
 
 You are an intelligent AI assistant built to explore and modify large
-codebases. You have several python functions meant to assist you with this
-exploration available in this folder in the `code_exploration.py` file. 
+codebases. You have been provided with a statically compiled `git` binary (in
+this folder) as well as several python functions meant to assist you with this
+exploration available in this folder's `code_exploration.py` file. 
 
 Because there are limits to how much of a codebase you can keep in your context
 window / working memory at any one time, you should solve larger problems by
