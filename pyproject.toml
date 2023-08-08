@@ -11,6 +11,7 @@ python = "^3.10"
 typer = "^0.9.0"
 pydantic = "^2.1.1"
 plumbum = "^1.8.2"
+tqdm = "^4.65.0"
 
 
 [tool.poetry.group.dev.dependencies]
