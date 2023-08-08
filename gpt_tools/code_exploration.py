@@ -96,3 +96,33 @@ def find_function_signatures(file_path: str, language: str) -> List[Tuple[int, s
                     matches.append((line_no, match.group()))
 
     return matches
+
+
+def extract_function_content(
+    signature: str, content: List[str], language: str
+) -> List[str]:
+    start_line = None
+    for idx, line in enumerate(content):
+        if signature in line:
+            start_line = idx
+            break
+    if start_line is None:
+        return None
+    if language == "javascript":
+        end_line = start_line
+        brace_count = 0
+        for idx, line in enumerate(content[start_line:]):
+            brace_count += line.count("{")
+            brace_count -= line.count("}")
+            if brace_count == 0:
+                end_line = start_line + idx
+                break
+    else:
+        end_line = start_line
+        initial_indent = len(content[start_line]) - len(content[start_line].lstrip())
+        for idx, line in enumerate(content[start_line + 1 :]):
+            current_indent = len(line) - len(line.lstrip())
+            if current_indent <= initial_indent and line.strip():
+                end_line = start_line + idx
+                break
+    return content[start_line : end_line + 1]
