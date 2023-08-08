@@ -20,7 +20,8 @@ def download_file(url: str, dest_path: Path):
     response = requests.get(url)
     with open(dest_path, "wb") as f:
         f.write(response.content)
-    os.chmod(dest_path, 0o755)
+    return dest_path
+    
 
 
 def create_tarball(dir_to_tar: Path, tar_file_path: Path, compression="gz") -> Path:

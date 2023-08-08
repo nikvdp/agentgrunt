@@ -1,3 +1,4 @@
+import os
 from pathlib import Path
 import shutil
 import tempfile
@@ -54,6 +55,7 @@ def build(
     git_binary_url = "https://github.com/nikvdp/1bin/releases/download/v0.0.20/git"
     git_binary_dest_path = Path("gpt_tools/git")
     download_file(git_binary_url, git_binary_dest_path)
+    os.chmod(git_binary_dest_path, 0o755)
 
     # create a tarball of output_dir, and once it's written move it to the
     # current PWD, and tell the user about it
