@@ -36,32 +36,26 @@ def grep(
     return matches
 
 
-def tree(directory: str, depth: int = 3) -> str:
+def tree(directory: str, prefix: str = "", depth_remaining: int = 3) -> str:
     """Print a directory tree"""
-
-    def _tree(dir_path: str, prefix: str, depth_remaining: int) -> str:
-        if depth_remaining < 0:
-            return ""
-        if not os.path.isdir(dir_path):
-            return ""
-        contents = os.listdir(dir_path)
-        entries = []
-        for i, entry in enumerate(sorted(contents)):
-            is_last = i == len(contents) - 1
-            new_prefix = prefix + ("â””â”€â”€ " if is_last else "â”œâ”€â”€ ")
-            child_path = os.path.join(dir_path, entry)
-            if os.path.isdir(child_path):
-                entries.append(new_prefix + entry)
-                entries.append(
-                    _tree(
-                        child_path,
-                        prefix + ("    " if is_last else "â”‚   "),
-                        depth_remaining - 1,
-                    )
+    if depth_remaining < 0 or not os.path.isdir(directory):
+        return ""
+    contents = os.listdir(directory)
+    entries = []
+    for i, entry in enumerate(sorted(contents)):
+        is_last = i == len(contents) - 1
+        new_prefix = prefix + ("└── " if is_last else "├── ")
+        child_path = os.path.join(directory, entry)
+        if os.path.isdir(child_path):
+            entries.append(new_prefix + entry)
+            entries.append(
+                tree(
+                    child_path,
+                    prefix + ("    " if is_last else "│   "),
+                    depth_remaining - 1,
                 )
-        return "\n".join(entries)
-
-    return _tree(directory, "", depth)
+            )
+    return "\n".join(entries)
 
 
 def find_function_signatures(file_path: str, language: str) -> List[Tuple[int, str]]:
