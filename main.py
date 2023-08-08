@@ -1,5 +1,10 @@
-import typer
 from pathlib import Path
+import tempfile
+
+from plumbum.cmd import git
+import typer
+
+from repo_mgmt import clone_git_repo_to_temp_dir, tar_directory
 
 app = typer.Typer()
 
@@ -27,7 +32,12 @@ def build(
         help=f"Build a {APP_NAME} zip file from a directory",
     )
 ):
-    print("Building from:", src_dir)
+    temp_repo = clone_git_repo_to_temp_dir(src_dir)
+    print(f"Temp repo cloned to: '{temp_repo}'")
+
+    tarball = tar_directory(temp_repo)
+    print(f"Tarball written to '{tarball}'")
+
 
 
 @app.command()
