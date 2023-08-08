@@ -48,13 +48,15 @@ def tree(directory: str, prefix: str = "", depth_remaining: int = 3) -> str:
         child_path = os.path.join(directory, entry)
         if os.path.isdir(child_path):
             entries.append(new_prefix + entry)
-            entries.append(
+            entries.extend(
                 tree(
                     child_path,
                     prefix + ("    " if is_last else "│   "),
                     depth_remaining - 1,
-                )
+                ).split("\n")
             )
+        else:
+            entries.append(new_prefix + entry)
     return "\n".join(entries)
 
 
