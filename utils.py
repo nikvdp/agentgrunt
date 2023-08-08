@@ -12,7 +12,10 @@ def move_directory(src_dir: Path, dest_dir: Path):
     dest_dir.mkdir(
         parents=True, exist_ok=True
     )  # Ensures that the destination directory exists
-    shutil.move(str(src_dir), str(dest_dir))
+
+    for item in src_dir.iterdir():
+        shutil.move(str(item), str(dest_dir))
+
     return dest_dir
 
 
