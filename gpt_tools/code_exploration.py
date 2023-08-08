@@ -4,27 +4,35 @@ from typing import List, Tuple
 
 
 def bfs_find(base: str, pattern: str) -> List[str]:
-    """Breadth-first search for files matching a pattern"""
+    """Breadth-first search for filenames matching a pattern"""
     queue = [base]
     matched_files = []
     while queue:
         current_path = queue.pop(0)
-        for root, dirs, files in os.walk(current_path):
-            for file in files:
-                if re.search(pattern, file):
-                    matched_files.append(os.path.join(root, file))
-            for dir in dirs:
-                queue.append(os.path.join(root, dir))
+        if os.path.isdir(current_path):
+            for entry in os.listdir(current_path):
+                full_path = os.path.join(current_path, entry)
+                if os.path.isdir(full_path):
+                    queue.append(full_path)
+                elif re.search(pattern, entry):
+                    matched_files.append(full_path)
     return matched_files
 
 
-def grep(file_path: str, pattern: str) -> List[str]:
-    """Recursively search for a pattern in a file/folder"""
-    if not file_path or not os.path.exists(file_path):
-        return []
-    with open(file_path, "r") as f:
-        content = f.readlines()
-    matches = [line for line in content if re.search(pattern, line)]
+def grep(
+    file_path: str, pattern: str, recursive: bool = False
+) -> List[Tuple[str, int, str]]:
+    """Search for a pattern in a file or a directory (recursively)"""
+    matches = []
+    if os.path.isdir(file_path) and recursive:
+        for root, _, files in os.walk(file_path):
+            for file in files:
+                matches.extend(grep(os.path.join(root, file), pattern))
+    elif os.path.isfile(file_path):
+        with open(file_path, "r") as f:
+            for line_no, line in enumerate(f, start=1):
+                if re.search(pattern, line):
+                    matches.append((file_path, line_no, line.strip()))
     return matches
 
 
@@ -54,30 +62,6 @@ def tree(directory: str, depth: int = 3) -> str:
         return "\n".join(entries)
 
     return _tree(directory, "", depth)
-
-
-def find_function_signatures(file_path: str, language: str) -> List[str]:
-    """Find function signatures in a file"""
-    if not file_path or not os.path.exists(file_path):
-        return []
-    with open(file_path, "r") as f:
-        content = f.read()
-    patterns = {
-        "javascript": [
-            r"function [a-zA-Z_][\w$]*\(",
-            r"[a-zA-Z_][\w$]*\s*=\s*\(.*\)\s*=>",
-            r"[a-zA-Z_][\w$]*\s*:\s*function\(",
-            r"[a-zA-Z_][\w$]*\s*:\s*\(.*\)\s*=>",
-            r"export\s*function [a-zA-Z_][\w$]*\(",
-            r"export default function [a-zA-Z_][\w$]*\(",
-        ],
-        "ruby": [r"def [a-zA-Z_][\w$]*"],
-        "python": [r"def [a-zA-Z_][\w$]*\("],
-    }
-    matches = []
-    for pattern in patterns.get(language, []):
-        matches.extend(re.findall(pattern, content))
-    return matches
 
 
 def find_function_signatures(file_path: str, language: str) -> List[Tuple[int, str]]:
