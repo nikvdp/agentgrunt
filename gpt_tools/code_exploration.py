@@ -59,7 +59,10 @@ def tree(directory: str, prefix: str = "", depth_remaining: int = 3) -> str:
 
 
 def find_function_signatures(file_path: str, language: str) -> List[Tuple[int, str]]:
-    """Find function signatures in a file"""
+    """
+    Find function signatures in a file.
+    Returns a list of tuples, where each tuple contains a line number (int) and the matching line (str).
+    """
     if not file_path or not os.path.exists(file_path):
         return []
 
