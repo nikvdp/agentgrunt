@@ -1,5 +1,5 @@
 import shutil
-import httpx as requests
+import httpx
 from pathlib import Path
 import os
 import tempfile
@@ -16,12 +16,28 @@ def move_directory(src_dir: Path, dest_dir: Path):
     return dest_dir
 
 
-def download_file(url: str, dest_path: Path):
-    response = requests.get(url)
-    with open(dest_path, "wb") as f:
-        f.write(response.content)
+def download_file(url: str, dest_path: Path) -> Path:
+    with httpx.stream("GET", url, follow_redirects=True) as response:
+        total_size = int(response.headers.get("content-length", 0))
+        block_size = 1024  # 1 Kibibyte
+        t = tqdm(
+            desc="Downloading git binary",
+            total=total_size,
+            unit="iB",
+            unit_scale=True,
+            ncols=80,
+        )
+
+        with open(dest_path, "wb") as f:
+            for chunk in response.iter_bytes(chunk_size=block_size):
+                t.update(len(chunk))
+                f.write(chunk)
+        t.close()
+
+        if total_size != 0 and t.n != total_size:
+            raise Exception("ERROR, something went wrong with the download")
+
     return dest_path
-    
 
 
 def create_tarball(dir_to_tar: Path, tar_file_path: Path, compression="gz") -> Path:

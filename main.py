@@ -53,7 +53,7 @@ def build(
     # download the linux git binary, make it executable, and write it to
     # ./gpt_tools/git
     git_binary_url = "https://github.com/nikvdp/1bin/releases/download/v0.0.20/git"
-    git_binary_dest_path = Path("gpt_tools/git")
+    git_binary_dest_path = (Path(__file__).parent / Path("gpt_tools/git")).resolve()
     download_file(git_binary_url, git_binary_dest_path)
     os.chmod(git_binary_dest_path, 0o755)
 
