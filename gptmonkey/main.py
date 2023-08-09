@@ -112,7 +112,14 @@ if __name__ == "__main__":
 
 def cli():
     import sys
+
     if len(sys.argv) == 1:
-        app(ctx=typer.Context(app), invoke_without_command=True)
+        # show help even if user didn't pass --help
+        sys.argv += ["--help"]
+        app()
     else:
         app()
+
+
+if __name__ == "__main__":
+    cli()
