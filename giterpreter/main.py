@@ -37,6 +37,9 @@ def build(
     preserve_history: bool = typer.Option(
         False, "--preserve-history", "-p", help="Preserve the full git history"
     ),
+    interactive: bool = typer.Option(
+        True, "--no-interactive", "-b", help="don't ask questions (batch) mode"
+    )
 ):
     temp_repo = clone_git_repo_to_temp_dir(src_dir, shallow=not preserve_history)
     print(f"Preparing to build '{src_dir.resolve().name}'...")
@@ -88,7 +91,7 @@ def build(
     print(final_msg)
     print("---", "\n", gpt_prompt, "\n---")
 
-    if shutil.which("pbcopy"):
+    if interactive and shutil.which("pbcopy"):
         # prompt user if they want to copy it and reveal the file, then do it if they say yes
         copy = typer.confirm("Copy the message to your clipboard?")
         if copy:
