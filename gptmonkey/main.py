@@ -23,7 +23,7 @@ def validate_directory(path: Path) -> Path:
 
 
 @app.command()
-def build(
+def bundle(
     src_dir: Path = typer.Argument(
         ...,
         exists=True,
@@ -39,7 +39,7 @@ def build(
     ),
     interactive: bool = typer.Option(
         True, "--no-interactive", "-b", help="don't ask questions (batch) mode"
-    )
+    ),
 ):
     temp_repo = clone_git_repo_to_temp_dir(src_dir, shallow=not preserve_history)
     print(f"Preparing to build '{src_dir.resolve().name}'...")
