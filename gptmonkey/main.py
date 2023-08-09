@@ -49,6 +49,7 @@ def bundle(
     print("\033[92m" + f"Preparing to build '{src_dir.resolve().name}'..." + "\033[0m")
 
     output_dir = Path(tempfile.mkdtemp())
+    output_dir.mkdir(parents=True, exist_ok=True)
     gpt_tools_dir = Path(__file__).parent / "gpt_tools"
 
     # use shutil to move the temp_repo dir into output_dir/user_code
@@ -57,6 +58,7 @@ def bundle(
 
     # download the linux git binary, make it executable
     git_dir = Path(tempfile.TemporaryDirectory().name)
+    git_dir.mkdir(exist_ok=True, parents=True)
     git_binary_url = "https://github.com/nikvdp/1bin/releases/download/v0.0.20/git"
     git_binary_dest_path = git_dir / "git"
     if not git_binary_dest_path.exists():
