@@ -40,6 +40,9 @@ def bundle(
     interactive: bool = typer.Option(
         True, "--no-interactive", "-b", help="don't ask questions (batch) mode"
     ),
+    assume_yes: bool = typer.Option(
+        False, "--assume-yes", "-y", help="assume yes for all prompts"
+    ),
 ):
     temp_repo = clone_git_repo_to_temp_dir(src_dir, shallow=not preserve_history)
     print("\033[92m" + f"Preparing to build '{src_dir.resolve().name}'..." + "\033[0m")
@@ -80,25 +83,35 @@ def bundle(
         + "\n"
     )
 
-    gpt_prompt = dedent(
-        """
+    gpt_prompt = (
+        dedent(
+            """
         Please extract the archive I've uploaded to /tmp, read the contents of
         tools_for_ai/README_ai.md, and follow the directions listed inside that
         file.
         """
-    ).strip().replace("\n", " ")
+        )
+        .strip()
+        .replace("\n", " ")
+    )
 
     print(final_msg)
     print(f"---\n{gpt_prompt}\n---")
 
     if interactive and shutil.which("pbcopy"):
         # prompt user if they want to copy it and reveal the file, then do it if they say yes
-        copy = typer.confirm("Copy the message to your clipboard?")
+
+        copy = (
+            True if assume_yes else typer.confirm("Copy the message to your clipboard?")
+        )
         if copy:
             pbcopy = local["pbcopy"]
             echo = local["echo"]
             (echo[gpt_prompt] | pbcopy)()
-        if typer.confirm("Reveal the file in Finder?"):
+        open_finder = (
+            True if assume_yes else typer.confirm("Reveal the file in Finder?")
+        )
+        if open_finder:
             local["open"]("-R", destination)
 
 
