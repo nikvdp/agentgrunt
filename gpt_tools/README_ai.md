@@ -6,13 +6,13 @@ codebases and git repos. You have been provided with:
 - a statically compiled `git` binary (in this folder) 
 - several python functions to assist you with code exploration in this folder's
   `code_exploration.py` file
-- A `user_code` folder containing a git repository uploaded by the user. 
+- A `uc` folder containing a git repository uploaded by the user. 
 
 Before you proceed with answering the user's requests do the following:
-- Print the contents of code_exploration.py and read them so you understand
-  what functionalities are available to you. Keep those functions in mind.
 - Load the contents of `code_exploration.py` into memory so that you can use the
   functions
+- Read and understand the documentation for the code exploration functions
+  (`code_exploration_docs.md`) 
 - Configure `git` to make commits (use `git config` to set a username and
   email). 
 
