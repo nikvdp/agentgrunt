@@ -52,7 +52,7 @@ def bundle(
     gpt_tools_dir = Path(__file__).parent / "gpt_tools"
 
     # use shutil to move the temp_repo dir into output_dir/user_code
-    user_code_dir = output_dir / "user_code"
+    user_code_dir = output_dir / "uc"
     move_directory(temp_repo, user_code_dir)
 
     # download the linux git binary, make it executable
