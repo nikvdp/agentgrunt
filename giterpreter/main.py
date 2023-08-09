@@ -89,7 +89,7 @@ def build(
     ).strip()
 
     print(final_msg)
-    print("---", "\n", gpt_prompt, "\n---")
+    print("---\n", gpt_prompt, "\n---")
 
     if interactive and shutil.which("pbcopy"):
         # prompt user if they want to copy it and reveal the file, then do it if they say yes
