@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "giterpreter"
+name = "gptmonkey"
 version = "0.1.0"
 description = ""
 authors = ["Nik V <github@nikvdp.com>"]
@@ -24,7 +24,7 @@ requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.poetry.scripts]
-giterpreter = "giterpreter.main:app"
+gptmonkey = "gptmonkey.main:app"
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.2"
