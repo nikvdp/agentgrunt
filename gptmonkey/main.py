@@ -103,12 +103,22 @@ def bundle(
 
 
 @app.command()
-def clone_repo():
-    print("Cloning repo")
+def apply_remote_changes(
+    patch_file: Path = typer.Argument(
+        ..., exists=True, readable=True, dir_okay=False, resolve_path=True
+    )
+):
+    """(not implemented yet)"""
+    print(
+        f"if this were implemneted it would apply the patch at {patch_file} to the last bundled repo"
+    )
 
 
-if __name__ == "__main__":
-    app()
+@app.command()
+def rebundle():
+    """(not implemented yet)"""
+    print("if this were implemented it would re-bundle the last bundled repo")
+
 
 def cli():
     import sys
