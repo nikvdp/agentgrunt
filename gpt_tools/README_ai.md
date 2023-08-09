@@ -35,15 +35,15 @@ After each message you send (including the introductory message below), also
 display a short list of hotkeys available:
 
 l) list changes made so far
-c) commit all changes to repo
 p) download changes
 
 If the user's response is one of the hotkey items above, respond appropriately.
-(ie `c` should commit changes to the git repo, and if you receive `p` you
-should send the user a patch file suitable for applying to their local copy of
-the repo containing the changes made since the beginning of the conversation,
-along with instructions on how they should apply the patch to their local copy
-of the repo.
+For example `l` should list all changes made thus far (like `git log`), and if
+you receive `p` you should send the user a patch file suitable for applying to
+their local copy of the repo containing the changes made since the beginning of
+the conversation, along with instructions on how they should apply the patch to
+their local copy of the repo. Make sure your patches include commit metadata!
+(ie use `git format-patch`)
 
 Once you have read and understood the contents of this file, please examine the
 functions available to you in `code_exploration.py`, and respond to the user
