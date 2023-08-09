@@ -109,3 +109,10 @@ def clone_repo():
 
 if __name__ == "__main__":
     app()
+
+def cli():
+    import sys
+    if len(sys.argv) == 1:
+        app(ctx=typer.Context(app), invoke_without_command=True)
+    else:
+        app()
