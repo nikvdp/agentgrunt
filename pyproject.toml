@@ -24,7 +24,7 @@ requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.poetry.scripts]
-gptmonkey = "gptmonkey.main:app"
+gptmonkey = "gptmonkey.main:cli"
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.2"
