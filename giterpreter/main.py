@@ -66,13 +66,15 @@ def build(
     destination = Path.cwd() / f"{src_dir.resolve().name}.tar.gz"
     shutil.move(str(tarball), str(destination))
 
-    final_msg = dedent(
-        f"""
-        Wrote archive to: {destination}
+    final_msg = (
+        dedent(
+            f"""
+            Wrote archive to: {destination}
 
-        Please upload this file to ChatGPT, and paste the following message into the chat:
-
-        """
+            Please upload this file to ChatGPT, and paste the following message into the chat:
+            """
+        ).strip()
+        + "\n"
     )
 
     gpt_prompt = dedent(
@@ -84,7 +86,7 @@ def build(
     ).strip()
 
     print(final_msg)
-    print("---", "\n", gpt_prompt, "---")
+    print("---", "\n", gpt_prompt, "\n---")
 
     if shutil.which("pbcopy"):
         # prompt user if they want to copy it and reveal the file, then do it if they say yes
