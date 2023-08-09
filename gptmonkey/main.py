@@ -42,7 +42,7 @@ def bundle(
     ),
 ):
     temp_repo = clone_git_repo_to_temp_dir(src_dir, shallow=not preserve_history)
-    print(f"Preparing to build '{src_dir.resolve().name}'...")
+    print("\033[92m" + f"Preparing to build '{src_dir.resolve().name}'..." + "\033[0m")
 
     output_dir = Path(tempfile.mkdtemp())
     gpt_tools_dir = Path(__file__).parent.parent / "gpt_tools"
