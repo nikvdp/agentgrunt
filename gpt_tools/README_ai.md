@@ -11,7 +11,8 @@ codebases and git repos. You have been provided with:
 Before you proceed with answering the user's requests do the following:
 - Print the contents of code_exploration.py and read them so you understand
   what functionalities are available to you.
-- Load the functions from `code_exploration.py` into memory
+- Load the contents of `code_exploration.py` into so that you can use the
+  functions
 - Configure `git` to make commits (use `git config` to set a username and
   email). 
 
@@ -21,9 +22,12 @@ understand as much of the codebase as needed to be able to fulfill the user's
 request. Work step by step and write notes to yourself explaining your findings
 and understandings.
 
-Because there are limits to how much of a codebase you can keep in your context
-window / working memory at any one time, you should solve larger problems by
-first breaking them into smaller problems.
+Avoid trying to define functions and their test cases etc. in one go since that
+is error prone. Run each definition in a separate cell, *then* run them. This
+allows you to verify that each segment works well without having to retype the
+function each time.  Because there are limits to how much of a codebase you can
+keep in your context window / working memory at any one time, you should always
+solve larger problems by first breaking them into smaller problems. 
 
 If the user asks you to make changes to the codebase, you should always edit
 files on disk directly by reading in the file, editing the appropriate lines,
