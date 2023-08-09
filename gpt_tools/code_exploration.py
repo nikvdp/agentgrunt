@@ -139,8 +139,8 @@ def extract_python_function(signature: str, content: List[str]) -> Optional[List
                 signature_end_line = start_line + idx + 1
                 break
 
-    initial_indent = len(content[signature_end_line]) - len(
-        content[signature_end_line].lstrip()
+    initial_indent = len(content[signature_end_line + 1]) - len(
+        content[signature_end_line + 1].lstrip()
     )
     indent_stack = [initial_indent]
     for idx, line in enumerate(content[signature_end_line + 1 :]):
@@ -148,13 +148,13 @@ def extract_python_function(signature: str, content: List[str]) -> Optional[List
         if current_indent > indent_stack[-1] and line.strip():
             indent_stack.append(current_indent)
         elif current_indent <= indent_stack[-1] and line.strip():
-            while indent_stack and current_indent <= indent_stack[-1]:
+            while indent_stack and current_indent < indent_stack[-1]:
                 indent_stack.pop()
             if not indent_stack:
-                end_line = signature_end_line + idx
+                end_line = signature_end_line + idx + 1
                 break
 
-    return content[start_line : (end_line or start_line) + 1]
+    return content[start_line : (end_line or signature_end_line + 1) + 1]
 
 
 def extract_curly_brace_function(
