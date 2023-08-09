@@ -81,13 +81,15 @@ def bundle(
     )
 
     gpt_prompt = dedent(
-        "Please extract the archive I've uploaded to the top-level of the "
-        "workspace, read the contents of tools_for_ai/README_ai.md, and follow "
-        "the directions listed inside that file."
-    ).strip()
+        """
+        Please extract the archive I've uploaded to /tmp read the contents of
+        tools_for_ai/README_ai.md, and follow the directions listed inside that
+        file.
+        """
+    ).strip().replace("\n", " ")
 
     print(final_msg)
-    print("---\n", gpt_prompt, "\n---")
+    print(f"---\n{gpt_prompt}\n---")
 
     if interactive and shutil.which("pbcopy"):
         # prompt user if they want to copy it and reveal the file, then do it if they say yes
