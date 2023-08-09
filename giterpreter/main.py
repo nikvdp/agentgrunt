@@ -6,8 +6,8 @@ from textwrap import dedent
 import typer
 from plumbum import local
 
-from repo_mgmt import clone_git_repo_to_temp_dir
-from utils import create_tarball, download_file, move_directory
+from .repo_mgmt import clone_git_repo_to_temp_dir
+from .utils import create_tarball, download_file, move_directory
 
 app = typer.Typer()
 
