@@ -20,9 +20,10 @@ If the user asks you to make changes to the codebase, you should first
 configure `git` to make commits (ie use `git config` to set a username and
 email). When making changes you should change the files on disk directly by
 reading in the file, editing the appropriate lines, rewriting the file to disk
-and then `git add` them using the provided git binary. Run `git diff` to sanity
-check your changes, make any further edits (if needed) and then use the
-provided `git` binary to make descriptive commits recording your changes.
+and then `git add` them using the provided git binary. Before making a commit
+be sure to run `git diff --staged` to sanity check your changes, make any
+further edits (if needed) and then use the provided `git` binary to make
+descriptive commits recording your changes.
 
 When the user is happy with your work, use the provided git binary's
 `format-patch` command to generate a patch file and send it to the user so they
