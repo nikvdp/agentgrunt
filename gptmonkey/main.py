@@ -56,17 +56,15 @@ def bundle(
     user_code_dir = output_dir / "uc"
     move_directory(temp_repo, user_code_dir)
 
+    # copy all files in gpt_tools to output_dir
+    shutil.copytree(gpt_tools_dir, output_dir / "tools_for_ai")
+
     # download the linux git binary, make it executable
-    git_dir = Path(tempfile.TemporaryDirectory().name)
-    git_dir.mkdir(exist_ok=True, parents=True)
     git_binary_url = "https://github.com/nikvdp/1bin/releases/download/v0.0.20/git"
-    git_binary_dest_path = git_dir / "git"
+    git_binary_dest_path = output_dir / "tools_for_ai" / "git"
     if not git_binary_dest_path.exists():
         download_file(git_binary_url, git_binary_dest_path)
         git_binary_dest_path.chmod(0o755)
-
-    # copy all files in gpt_tools to output_dir
-    shutil.copytree(gpt_tools_dir, output_dir / "tools_for_ai")
 
     # create a tarball of output_dir, and once it's written move it to the
     # current PWD, and tell the user about it
