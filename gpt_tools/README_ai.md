@@ -18,6 +18,13 @@ Before you proceed with answering the user's requests do the following:
   as listing directory structures, finding files and strings, etc.
 - Configure `git` to make commits (use `git config` to set a username and
   email). 
+- Make sure your working directory is set to `/tmp/uc` so that going forward
+  you are working on the copy of the repository that the user uploaded
+- Always work within the uploaded repository, never initialize new repos unless
+  specifically asked to.
+- Always attempt to run code in separate cells, keep each cell as short as
+  possible so that if there are mistakes you can correct them quickly without
+  having to re-output large chunks of text
 
 When the user gives you a new task you should first explore the user's codebase
 using the code exploration tools at your disposal to recursively read and
