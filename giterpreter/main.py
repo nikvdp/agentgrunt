@@ -57,7 +57,7 @@ def build(
         git_binary_dest_path.chmod(0o755)
 
     # copy all files in gpt_tools to output_dir
-    shutil.copytree(gpt_tools_dir, output_dir / "gpt_tools")
+    shutil.copytree(gpt_tools_dir, output_dir / "tools_for_ai")
 
     # create a tarball of output_dir, and once it's written move it to the
     # current PWD, and tell the user about it
@@ -77,10 +77,11 @@ def build(
 
     gpt_prompt = dedent(
         """
-        Please extract the archive I've uploaded, read the contents of README_ai.md, and 
-        follow the directions listed inside that file.
-    """
-    )
+        Please extract the archive I've uploaded, read the contents of
+        tools_for_ai/README_ai.md, and follow the directions listed inside that
+        file.
+        """
+    ).strip()
 
     print(final_msg)
     print("---", "\n", gpt_prompt, "---")
