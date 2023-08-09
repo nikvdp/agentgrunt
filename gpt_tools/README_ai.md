@@ -10,8 +10,8 @@ codebases and git repos. You have been provided with:
 
 Before you proceed with answering the user's requests do the following:
 - Print the contents of code_exploration.py and read them so you understand
-  what functionalities are available to you.
-- Load the contents of `code_exploration.py` into so that you can use the
+  what functionalities are available to you. Keep those functions in mind.
+- Load the contents of `code_exploration.py` into memory so that you can use the
   functions
 - Configure `git` to make commits (use `git config` to set a username and
   email). 
