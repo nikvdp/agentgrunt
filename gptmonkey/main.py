@@ -1,3 +1,4 @@
+import tempfile
 import shutil
 import tempfile
 from pathlib import Path
@@ -54,10 +55,10 @@ def bundle(
     user_code_dir = output_dir / "user_code"
     move_directory(temp_repo, user_code_dir)
 
-    # download the linux git binary, make it executable, and write it to
-    # ../gpt_tools/git for later use
+    # download the linux git binary, make it executable
+    git_dir = Path(tempfile.TemporaryDirectory().name)
     git_binary_url = "https://github.com/nikvdp/1bin/releases/download/v0.0.20/git"
-    git_binary_dest_path = gpt_tools_dir / "git"
+    git_binary_dest_path = git_dir / "git"
     if not git_binary_dest_path.exists():
         download_file(git_binary_url, git_binary_dest_path)
         git_binary_dest_path.chmod(0o755)
