@@ -48,7 +48,7 @@ def bundle(
     print("\033[92m" + f"Preparing to build '{src_dir.resolve().name}'..." + "\033[0m")
 
     output_dir = Path(tempfile.mkdtemp())
-    gpt_tools_dir = Path(__file__).parent.parent / "gpt_tools"
+    gpt_tools_dir = Path(__file__).parent / "gpt_tools"
 
     # use shutil to move the temp_repo dir into output_dir/user_code
     user_code_dir = output_dir / "user_code"
