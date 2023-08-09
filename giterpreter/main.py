@@ -11,7 +11,7 @@ from .utils import create_tarball, download_file, move_directory
 
 app = typer.Typer()
 
-APP_NAME = "giterpreter"
+APP_NAME = "gptmonkey"
 
 
 def validate_directory(path: Path) -> Path:
