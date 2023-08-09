@@ -1,6 +1,6 @@
 import os
 import re
-from typing import List, Tuple
+from typing import List, Tuple, Optional
 
 
 def bfs_find(base: str, pattern: str) -> List[str]:
@@ -99,8 +99,8 @@ def find_function_signatures(file_path: str, language: str) -> List[Tuple[int, s
 
 
 def extract_function_content(
-    signature: str, content: List[str], language: str
-) -> List[str]:
+    language: str, signature: str, content: List[str]
+) -> Optional[List[str]]:
     """
     Extracts the content of a function given its signature and the content of the file.
 
@@ -112,8 +112,15 @@ def extract_function_content(
     Returns:
         List[str]: The lines of code that make up the function.
     """
-    # Find the start line of the function
+    if language == "python":
+        return extract_python_function(signature, content)
+    else:  # Default to handling curly brace languages like JavaScript
+        return extract_curly_brace_function(signature, content)
+
+
+def extract_python_function(signature: str, content: List[str]) -> Optional[List[str]]:
     start_line = None
+    end_line = None
     for idx, line in enumerate(content):
         if signature in line:
             start_line = idx
@@ -122,25 +129,53 @@ def extract_function_content(
     if start_line is None:
         return None
 
-    # Depending on the language, find the end line of the function
-    if language == "javascript":
-        end_line = start_line
-        brace_count = 0
-        for idx, line in enumerate(content[start_line:]):
-            brace_count += line.count("{")
-            brace_count -= line.count("}")
-            # End line of the function is when the count of opening and closing braces is equal
-            if brace_count == 0:
-                end_line = start_line + idx
-                break
+    signature_end_line = start_line
+    # If the signature ends on the same line, use the start_line as the signature_end_line
+    if "):" in content[start_line]:
+        signature_end_line = start_line
     else:
-        end_line = start_line
-        initial_indent = len(content[start_line]) - len(content[start_line].lstrip())
         for idx, line in enumerate(content[start_line + 1 :]):
-            current_indent = len(line) - len(line.lstrip())
-            if current_indent <= initial_indent and line.strip():
-                end_line = start_line + idx
+            if "):" in line:
+                signature_end_line = start_line + idx + 1
                 break
 
-    # Return the content of the function
+    initial_indent = len(content[signature_end_line]) - len(
+        content[signature_end_line].lstrip()
+    )
+    indent_stack = [initial_indent]
+    for idx, line in enumerate(content[signature_end_line + 1 :]):
+        current_indent = len(line) - len(line.lstrip())
+        if current_indent > indent_stack[-1] and line.strip():
+            indent_stack.append(current_indent)
+        elif current_indent <= indent_stack[-1] and line.strip():
+            while indent_stack and current_indent <= indent_stack[-1]:
+                indent_stack.pop()
+            if not indent_stack:
+                end_line = signature_end_line + idx
+                break
+
+    return content[start_line : (end_line or start_line) + 1]
+
+
+def extract_curly_brace_function(
+    signature: str, content: List[str]
+) -> Optional[List[str]]:
+    start_line = None
+    brace_count = 0
+    for idx, line in enumerate(content):
+        if signature in line:
+            start_line = idx
+            break
+
+    if start_line is None:
+        return None
+
+    end_line = start_line
+
+    for idx, line in enumerate(content[start_line:]):
+        brace_count += line.count("{") - line.count("}")
+        if brace_count == 0:
+            end_line = start_line + idx
+            break
+
     return content[start_line : end_line + 1]
