@@ -42,22 +42,22 @@ def build(
     print(f"Preparing to build '{src_dir.resolve().name}'...")
 
     output_dir = Path(tempfile.mkdtemp())
+    gpt_tools_dir = Path(__file__).parent.parent / "gpt_tools"
 
     # use shutil to move the temp_repo dir into output_dir/user_code
-    user_code_dir = move_directory(temp_repo, output_dir / "user_code")
-
-    # copy all files in gpt_tools to output_dir
-    gpt_tools_dir = Path(__file__).parent / "gpt_tools"
-    for file_path in gpt_tools_dir.glob("*"):
-        shutil.copy(file_path, output_dir)
+    user_code_dir = output_dir / "user_code"
+    move_directory(temp_repo, user_code_dir)
 
     # download the linux git binary, make it executable, and write it to
-    # ./../gpt_tools/git
+    # ../gpt_tools/git for later use
     git_binary_url = "https://github.com/nikvdp/1bin/releases/download/v0.0.20/git"
-    git_binary_dest_path = (Path(__file__).parent / Path("../gpt_tools/git")).resolve()
+    git_binary_dest_path = gpt_tools_dir / "git"
     if not git_binary_dest_path.exists():
         download_file(git_binary_url, git_binary_dest_path)
         git_binary_dest_path.chmod(0o755)
+
+    # copy all files in gpt_tools to output_dir
+    shutil.copytree(gpt_tools_dir, output_dir / "gpt_tools")
 
     # create a tarball of output_dir, and once it's written move it to the
     # current PWD, and tell the user about it
