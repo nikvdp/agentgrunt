@@ -21,3 +21,6 @@ ipython = "^8.14.0"
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+giterpreter = "giterpreter.main:app"
