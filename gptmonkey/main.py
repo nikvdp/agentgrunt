@@ -51,7 +51,7 @@ def bundle(
     gpt_tools_dir = Path(__file__).parent.parent / "gpt_tools"
 
     # use shutil to move the temp_repo dir into output_dir/user_code
-    user_code_dir = output_dir / "uc"
+    user_code_dir = output_dir / "user_code"
     move_directory(temp_repo, user_code_dir)
 
     # download the linux git binary, make it executable, and write it to
@@ -83,17 +83,13 @@ def bundle(
         + "\n"
     )
 
-    gpt_prompt = (
-        dedent(
-            """
+    gpt_prompt = dedent(
+        """
         Please extract the archive I've uploaded to /tmp, read the contents of
         tools_for_ai/README_ai.md, and follow the directions listed inside that
         file.
         """
-        )
-        .strip()
-        .replace("\n", " ")
-    )
+    ).strip().replace("\n", " ")
 
     print(final_msg)
     print(f"---\n{gpt_prompt}\n---")
