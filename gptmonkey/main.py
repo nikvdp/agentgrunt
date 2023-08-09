@@ -82,9 +82,9 @@ def bundle(
 
     gpt_prompt = dedent(
         """
-        Please extract the archive I've uploaded, read the contents of
-        tools_for_ai/README_ai.md, and follow the directions listed inside that
-        file.
+        Please extract the archive I've uploaded to the top-level of the
+        workspace, read the contents of tools_for_ai/README_ai.md, and follow
+        the directions listed inside that file.
         """
     ).strip()
 
