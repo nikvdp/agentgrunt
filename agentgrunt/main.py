@@ -12,7 +12,7 @@ from .utils import create_tarball, download_file, move_directory
 
 app = typer.Typer()
 
-APP_NAME = "gptmonkey"
+APP_NAME = "agentgrunt"
 
 
 def validate_directory(path: Path) -> Path:
