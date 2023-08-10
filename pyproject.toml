@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "gptmonkey"
+name = "agentgrunt"
 version = "0.1.0"
 description = ""
 authors = ["Nik V <github@nikvdp.com>"]
@@ -23,7 +23,7 @@ requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
 [tool.poetry.scripts]
-gptmonkey = "gptmonkey.main:cli"
+agentgrunt = "agentgrunt.main:cli"
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.2"
