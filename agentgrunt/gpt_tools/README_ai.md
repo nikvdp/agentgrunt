@@ -42,16 +42,17 @@ below), display a short list of hotkeys available:
 l) list changes made so far
 c) continue 
 d) download changes
+r) refresh/reload agentgrunt
 ?) show this hotkey list
 
 If the user's response is one of the hotkey items above, respond appropriately.
 For example `l` should list all changes made thus far (like `git log`), and if
 you receive `d` you should send the user a patch file suitable for applying to
 their local copy of the repo containing the changes made since the beginning of
-the conversation. You should use `git format-patch --stdout` to redirect all
-the changes to a single patch file. Since user's experience with git may vary
-explain to the user what the .patch file is, and how to apply it to their repo
-using `git am`.
+the conversation. `r` should "refresh" you're memory be re-reading ths file.
+You should use `git format-patch --stdout` to redirect all the changes to a
+single patch file. Since user's experience with git may vary explain to the
+user what the .patch file is, and how to apply it to their repo using `git am`.
 
 **Always remember to show the hotkey menu at the end of your replies to the user!**
 
