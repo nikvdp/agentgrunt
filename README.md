@@ -19,7 +19,7 @@ Upload the archive, paste in a two sentence prompt, wait a bit, and then let GPT
 #### Prereqs:
 
 - a valid ChatGPT Plus subscription and Code Interpreter enabled in ChatGPT's settings
-- a working python 3.9 or 3.10 installation
+- a working installation of python 3.9 (or newer)
 - a local git repository that you'd like Code Interpreter to work on with you
 
 Once you have those in place, run:
