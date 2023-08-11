@@ -36,7 +36,7 @@ def bundle(
         help=f"Build a {APP_NAME} zip file from a directory",
     ),
     preserve_history: bool = typer.Option(
-        False, "--preserve-history", "-p", help="Preserve the full git history"
+        False, "--preserve-history", "-p", help="Preserve the full git history (defaults to shallow clone to save space)"
     ),
     interactive: bool = typer.Option(
         True, "--no-interactive", "-b", help="don't ask questions (batch) mode"
@@ -46,7 +46,10 @@ def bundle(
     ),
 ):
     temp_repo = clone_git_repo_to_temp_dir(src_dir, shallow=not preserve_history)
-    print("\033[92m" + f"Preparing to build '{src_dir.resolve().name}'..." + "\033[0m")
+    print(  # "\033[92m" +
+        f"Preparing to build '{src_dir.resolve().name}'..."
+        # + "\033[0m"
+    )
 
     output_dir = Path(tempfile.mkdtemp())
     output_dir.mkdir(parents=True, exist_ok=True)
