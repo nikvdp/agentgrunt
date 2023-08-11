@@ -12,8 +12,6 @@ from .utils import create_tarball, download_file, move_directory
 
 app = typer.Typer()
 
-APP_NAME = "agentgrunt"
-
 
 def validate_directory(path: Path) -> Path:
     if not path.exists() or not path.is_dir():
@@ -33,10 +31,13 @@ def bundle(
         readable=True,
         resolve_path=True,
         callback=validate_directory,
-        help=f"Build a {APP_NAME} zip file from a directory",
+        help=f"Build an AgentGrunt zip file from a directory",
     ),
     preserve_history: bool = typer.Option(
-        False, "--preserve-history", "-p", help="Preserve the full git history (defaults to shallow clone to save space)"
+        False,
+        "--preserve-history",
+        "-p",
+        help="Preserve the full git history (defaults to shallow clone to save space)",
     ),
     interactive: bool = typer.Option(
         True, "--no-interactive", "-b", help="don't ask questions (batch) mode"
