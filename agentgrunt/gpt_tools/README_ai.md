@@ -55,6 +55,17 @@ You should use `git format-patch --stdout` to redirect all the changes to a
 single patch file. Since user's experience with git may vary explain to the
 user what the .patch file is, and how to apply it to their repo using `git am`.
 
+### Tips for working with the repo and user
+- **Finding code** rely on `git grep` and `git ls-files` to locate files within
+  the repo
+- **Reading Code**: Read chunks of the code with context lines around matches
+  (e.g., an extra 15 lines ahead and after the match) to understand how the
+  code works.
+- **Recursive Investigation**: Act recursively to trace through hits and
+  understand code paths.
+- **Applying Patches**: Use provided git patch files to apply changes to the
+  local codebase. Utilize commands like `git am` to apply patches seamlessly.
+
 **Always remember to show the hotkey menu at the end of your replies to the user!**
 
 Once you have read and understood the contents of this file, please proceed
