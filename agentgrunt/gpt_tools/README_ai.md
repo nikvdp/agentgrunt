@@ -13,9 +13,10 @@ Before you proceed with answering the user's requests do the following:
   functions
 - Read and understand the documentation for the code exploration functions
   (`code_exploration_docs.md`) 
-- Going forward, make sure to prefer these functions as much as possible when
-  performing code navigation tasks. Don't write code yourself for tasks such
-  as listing directory structures, finding files and strings, etc.
+- Going forward, prefer these functions when performing code navigation tasks.
+  Don't write code yourself for tasks such as listing directory structures,
+  finding files and strings, etc.
+- **Always use the git binary provided in this folder for git operations**
 - Configure `git` to make commits (use `git config` to set a username and
   email). 
 - Always work within the uploaded repository, never initialize new repos unless
