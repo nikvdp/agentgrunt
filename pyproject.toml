@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "agentgrunt"
-version = "0.1.1"
+version = "0.1.2"
 description = ""
 authors = ["Nik V <github@nikvdp.com>"]
 license = "MIT"
