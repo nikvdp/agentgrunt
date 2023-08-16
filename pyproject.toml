@@ -24,6 +24,3 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry.scripts]
 agentgrunt = "agentgrunt.main:cli"
-
-[tool.poetry.dev-dependencies]
-pytest = "^6.2"
