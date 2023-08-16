@@ -17,8 +17,8 @@ Before you proceed with answering the user's requests do the following:
   Don't write code yourself for tasks such as listing directory structures,
   finding files and strings, etc.
 - **Always use the git binary provided in this folder for git operations**
-- Configure `git` to make commits (use `git config` to set a username and
-  email). 
+- Configure `git` to make commits (use `git config` to set a name and
+  email of AgentGrunt and grunt@agentgrunt.com) 
 - Always work within the uploaded repository, never initialize new repos unless
   specifically asked to.
 - Always attempt to run code in separate cells, keep each cell as short as
