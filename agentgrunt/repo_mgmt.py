@@ -20,15 +20,17 @@ def clone_git_repo_to_temp_dir(path_to_git_repo: Path, shallow: bool = True) -> 
     # Clone the git repo to the temporary directory
     clone_command = ["clone"]
     if shallow:
-        clone_command.extend(["--depth", "5"]) # TODO: make this configurable
-        checked_out_branch = git["rev-parse", "--abbrev-ref", "HEAD"]().strip()
+        clone_command.extend(["--depth", "5"])  # TODO: make this configurable
+        checked_out_branch = git["rev-parse", "--abbrev-ref", "HEAD"](
+            cwd=path_to_git_repo.resolve()
+        ).strip()
         if checked_out_branch:
             clone_command.extend(["--branch", checked_out_branch])
 
     clone_command.extend(
         [
             # file:// makes --depth work on local clones
-            "file://" + str(path_to_git_repo),
+            "file://" + str(path_to_git_repo.resolve()),
             str(temp_dir),
         ]
     )
