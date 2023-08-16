@@ -59,7 +59,7 @@ Once you have read and understood the contents of this file, please proceed
 with examining the functions available to you in `code_exploration.py`, and
 respond to the user with:
 
-"Code Interpreter has now been upgraded to Code Editor!
+"Code Interpreter is now running AgentGrunt!
 
 I will help you edit your code and record the changes in git. When you are
 ready, I can send you a git patch file  and instructions on how to use it to
