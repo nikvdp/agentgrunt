@@ -1,14 +1,13 @@
 # 🕵🧰 AgentGrunt ️
 
-## TL;DR:
-
-Skip the gruntwork! Let AgentGrunt write, edit, and commit code to your own repos for you from inside of OpenAI's [Code Interpreter](https://openai.com/blog/chatgpt-plugins#code-interpreter). 
+Use OpenAI's [Code Interpreter](https://openai.com/blog/chatgpt-plugins#code-interpreter) to edit and commit code across your entire git repo (even non-python repos)!
 
 ## Overview
 
-AgentGrunt packs up the following: a codebase you specify, a specially prepared `git` binary that runs in Code Interpreter's environment, along with some prompts and code exploration tools into a single file that you can load into Code Interpreter.
+AgentGrunt packs up the following: a codebase you specify, a specially prepared `git` binary that runs well in Code Interpreter's environment, and some prompts and code exploration tools into a single file that you can load into Code Interpreter.
 
-Upload the archive, paste in a two sentence prompt, wait a bit, and then let GPT4 write, edit, and commit your code for you. Once GPT4 has finished making your changes, press `d` from the hotkey menu and ChatGPT will send you a file you can use to apply the commits GPT4 made (with all their metadata!) directly into your copy of the repo. 
+Upload the archive, paste in a two sentence prompt, wait a bit, and then sit back and relax while GPT4.5<sup><a href="https://twitter.com/swyx/status/1678512823457165312?s=20">*</a></sup> writes, edit, and commits your code for you. Once GPT has finished making your changes, press `d` from the hotkey menu and ChatGPT will send you a file you can use to apply the commits GPT made (with all their metadata!) directly into your copy of the repo.
+
 ## Features:
 
 - automatically installs `git` into Code Interpreter and configures it for code exploration 
