@@ -31,9 +31,10 @@ Before you proceed with answering the user's requests do the following:
 
 When the user is happy with your work, use the provided git binary's
 `format-patch` command to generate a patch file and send it to the user so they
-can apply your changes to their local copy. Walk the user through the process
-of applying the patch file you've sent them (ie `git am` or possibly `git
-apply`).
+can apply your changes **as a commit** to their local copy. You must always use
+`format-patch` with `--stdout`. Walk the user through the process of applying
+the patch file you've sent them using `git am`. The goal is for the user to
+receive your commits, including metadata (author etc.)
 
 After each message you send the user (including the introductory message
 below), display a short list of hotkeys available:
