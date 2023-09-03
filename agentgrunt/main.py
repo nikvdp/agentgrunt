@@ -64,6 +64,7 @@ def bundle(
     shutil.copytree(gpt_tools_dir, output_dir / "tools_for_ai")
 
     # download the linux git binary, make it executable
+    git_binary_url = "https://github.com/nikvdp/1bin/releases/download/v0.0.20/git"
     
     # Prepare the cache directory for git binary using XDG conventions from environment variables
     git_cache_dir = Path(os.environ.get('XDG_CACHE_HOME', os.path.expanduser('~/.cache'))) / 'agentgrunt' / 'git_binary'
@@ -74,6 +75,8 @@ def bundle(
     if not git_binary_dest_path.exists():
         download_file(git_binary_url, git_binary_dest_path)
         git_binary_dest_path.chmod(0o755)
+
+    shutil.copyfile(git_binary_dest_path, output_dir / "tools_for_ai" / "git")
 
 
     # create a tarball of output_dir, and once it's written move it to the
