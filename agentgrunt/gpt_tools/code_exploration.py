@@ -81,6 +81,8 @@ def find_function_signatures(file_path: str, language: str) -> List[Tuple[int, s
             r"export\s+default\s+function\s*\(",  # Default exported function (anonymous)
             r"export\s+default\s+[a-zA-Z_][\w$]*",  # Default exported function assigned to a variable
         ],
+        "c": [r"\b[a-zA-Z_][\w$]*\s*\([^)]*\)\s*{"],  # Function definitions
+        "cpp": [r"\b[a-zA-Z_][\w$]*\s*\([^)]*\)\s*{"],
         "ruby": [r"def [a-zA-Z_][\w$]*"],
         "python": [r"def [a-zA-Z_][\w$]*\("],
         "go": [r"func [a-zA-Z_][\w$]*\("],
