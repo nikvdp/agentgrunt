@@ -65,10 +65,8 @@ def bundle(
 
     # download the linux git binary, make it executable
     
-from xdg.BaseDirectory import xdg_cache_home
-
-# Prepare the cache directory for git binary
-git_cache_dir = Path(xdg_cache_home) / 'agentgrunt' / 'git_binary'
+# Prepare the cache directory for git binary using XDG conventions from environment variables
+git_cache_dir = Path(os.environ.get('XDG_CACHE_HOME', os.path.expanduser('~/.cache'))) / 'agentgrunt' / 'git_binary'
 git_cache_dir.mkdir(parents=True, exist_ok=True)
 git_binary_dest_path = git_cache_dir / 'git'
 
