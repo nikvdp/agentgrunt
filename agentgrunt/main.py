@@ -64,11 +64,19 @@ def bundle(
     shutil.copytree(gpt_tools_dir, output_dir / "tools_for_ai")
 
     # download the linux git binary, make it executable
-    git_binary_url = "https://github.com/nikvdp/1bin/releases/download/v0.0.20/git"
-    git_binary_dest_path = output_dir / "tools_for_ai" / "git"
-    if not git_binary_dest_path.exists():
-        download_file(git_binary_url, git_binary_dest_path)
-        git_binary_dest_path.chmod(0o755)
+    
+from xdg.BaseDirectory import xdg_cache_home
+
+# Prepare the cache directory for git binary
+git_cache_dir = Path(xdg_cache_home) / 'agentgrunt' / 'git_binary'
+git_cache_dir.mkdir(parents=True, exist_ok=True)
+git_binary_dest_path = git_cache_dir / 'git'
+
+# Download the git binary only if it doesn't exist in the cache
+if not git_binary_dest_path.exists():
+    download_file(git_binary_url, git_binary_dest_path)
+    git_binary_dest_path.chmod(0o755)
+
 
     # create a tarball of output_dir, and once it's written move it to the
     # current PWD, and tell the user about it
