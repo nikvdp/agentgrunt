@@ -92,8 +92,8 @@ def bundle(
         dedent(
             """
         Please extract the archive I've uploaded to /tmp, read the contents of
-        tools_for_ai/README_ai.md, and follow the directions listed inside that
-        file.
+        tools_for_ai/README_ai.md in it's entirety, and follow the directions
+        listed inside that file.
         """
         )
         .strip()
