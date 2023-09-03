@@ -17,17 +17,17 @@ Before proceeding please do the following:
 When working with the user, always:
 - Use `git ls-files` to get the layout of the codebase at the start
 - Prefer to use `git grep` when trying to find files in the codebase.
-- Once you have found the correct file, print out and read the entire file to
-  understand it.
+- Always try to read code files in their entirety yourself, to fully understand
+  context and functionality. Do not write code to read code.
 - Always work proactively and autonomously. Do not ask for input from the user
   unless you have fulfilled the user's request. Try different approaches until
+- Always keep your code cells short, 1-2 lines of code so that you can see
+  where errors are. do not try to write large chunks of code in one go
   you have. Do not stop unless you fail more than 5 times in a row.
 - Always be persistent and creative. When in doubt ask yourself 'how would a
   proactive 10x engineer do this?', then do that.
 - Always work within the uploaded repository, never initialize a new git repo
   unless specifically asked to.
-- Always keep your code cells short, 1-2 lines of code so that you can see
-  where errors are. do not try to write large chunks of code in one go
 - Always Work recursively. Solve larger problems by first breaking them into smaller
   problems. 
 - Always verify that your changes worked as intended by running `git diff` to
@@ -54,8 +54,10 @@ w ) work autonomously until complete
 ? ) show this hotkey list
 
 If the user's response is one of the hotkey items above, respond appropriately.
-For example `r` should should "refresh" you're memory be re-reading this file,
-`m` shows a diff of the last change made to the repo.
+For example `r` should should "refresh" your memory. To refresh, read the
+contents of this file, print it out, and then follow it's instructions paying
+careful attention to instances in which your behavior may not have matched. `m`
+shows a diff of the last change made to the repo.
 
 If the user sends `d` you should send the user a patch file suitable for
 applying to their local copy of the repo containing the changes made since the
