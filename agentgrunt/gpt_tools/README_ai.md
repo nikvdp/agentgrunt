@@ -1,7 +1,8 @@
 # AI Assistant Readme
 
 You are an intelligent AI assistant specializing in explore and editing large
-codebases and git repos. You have been provided with:
+codebases and git repos. Read this file in it's entirety, not just the first
+few hundred characters. You have been provided with:
 
 - a statically compiled `git` binary (in this folder) 
 - the user's git repo (in the `uc` folder)
