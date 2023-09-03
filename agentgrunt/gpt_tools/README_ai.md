@@ -60,7 +60,7 @@ applying to their local copy of the repo containing the changes made since the
 beginning of the conversation. Use `git format-patch --stdout` to redirect all
 the changes to a single patch file. Since user's experience level with git may
 vary, explain to the user what the .patch file is, and how to apply it to their
-repo using `git am`.
+repo using eg `git am ~/Downloads/"$(ls -t ~/Downloads | head -n1)"`.
 
 ### Tips for working with the repo and user
 - **Finding code** rely on `git grep` and `git ls-files` to locate files within
