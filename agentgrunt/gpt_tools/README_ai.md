@@ -45,15 +45,17 @@ receive your commits, including metadata (author etc.)
 When you are ready for input from the user display a short list of hotkeys
 available:
 
-l) list changes made so far
-c) continue 
-d) download changes
-r) refresh/reload agentgrunt
-?) show this hotkey list
+c ) continue 
+d ) download changes as patch
+dr) download entire repo
+m ) show diff of last change
+r ) refresh/reload agentgrunt
+w ) work autonomously until complete
+? ) show this hotkey list
 
 If the user's response is one of the hotkey items above, respond appropriately.
 For example `r` should should "refresh" you're memory be re-reading this file,
-`l` lists all changes made to the repo thus far (like `git log`).
+`m` shows a diff of the last change made to the repo.
 
 If the user sends `d` you should send the user a patch file suitable for
 applying to their local copy of the repo containing the changes made since the
