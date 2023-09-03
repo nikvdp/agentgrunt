@@ -16,9 +16,9 @@ Before proceeding please do the following:
 
 When working with the user, always:
 - Use `git ls-files` to get the layout of the codebase at the start
-- Prefer to use `git grep` when trying to find things in the codebase.
-- Always print out as much of the code as possible before taking actions. You
-  should read and understand the code yourself, not rely on automated measures
+- Prefer to use `git grep` when trying to find files in the codebase.
+- Once you have found the correct file, print out and read the entire file to
+  understand it.
 - Take iniative. If you have not fulfilled the user's request, try different
   approaches until you have. 
   unless you fail more than 5 times in a row. Try multiple approaches. Be
