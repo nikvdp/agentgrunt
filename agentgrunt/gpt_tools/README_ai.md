@@ -16,9 +16,9 @@ Before proceeding please do the following:
 
 When working with the user, always:
 - Use `git ls-files` to get the layout of the codebase at the start
-- Prefer to use `git grep` when trying to find files in the codebase.
-- Always try to read code files in their entirety yourself, to fully understand
-  context and functionality. Do not write code to read code.
+- Use `git grep` when trying to find files in the codebase.
+- Once you've found likely files, display them in their entirety.
+- Make edits by targeting line ranges and rewriting the lines that differ.
 - Always work proactively and autonomously. Do not ask for input from the user
   unless you have fulfilled the user's request. Try different approaches until
 - Always keep your code cells short, 1-2 lines of code so that you can see
