@@ -3,3 +3,4 @@ git
 .DS_*
 *.tar.gz
 dist/
+.vscode/
