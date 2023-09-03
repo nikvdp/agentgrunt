@@ -65,15 +65,15 @@ def bundle(
 
     # download the linux git binary, make it executable
     
-# Prepare the cache directory for git binary using XDG conventions from environment variables
-git_cache_dir = Path(os.environ.get('XDG_CACHE_HOME', os.path.expanduser('~/.cache'))) / 'agentgrunt' / 'git_binary'
-git_cache_dir.mkdir(parents=True, exist_ok=True)
-git_binary_dest_path = git_cache_dir / 'git'
+    # Prepare the cache directory for git binary using XDG conventions from environment variables
+    git_cache_dir = Path(os.environ.get('XDG_CACHE_HOME', os.path.expanduser('~/.cache'))) / 'agentgrunt' / 'git_binary'
+    git_cache_dir.mkdir(parents=True, exist_ok=True)
+    git_binary_dest_path = git_cache_dir / 'git'
 
-# Download the git binary only if it doesn't exist in the cache
-if not git_binary_dest_path.exists():
-    download_file(git_binary_url, git_binary_dest_path)
-    git_binary_dest_path.chmod(0o755)
+    # Download the git binary only if it doesn't exist in the cache
+    if not git_binary_dest_path.exists():
+        download_file(git_binary_url, git_binary_dest_path)
+        git_binary_dest_path.chmod(0o755)
 
 
     # create a tarball of output_dir, and once it's written move it to the
