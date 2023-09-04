@@ -1,37 +1,24 @@
-import os
 import shutil
 import tempfile
 from pathlib import Path
 from textwrap import dedent
-
+from typing import Union
+import os
 import typer
 from plumbum import local
 
-from .repo_mgmt import clone_git_repo_to_temp_dir
+from .repo_mgmt import valid_git_repo, get_clone_url, clone_git_repo_to_temp_dir
 from .utils import create_tarball, download_file, move_directory
 
 app = typer.Typer()
 
 
-def validate_directory(path: Path) -> Path:
-    if not path.exists() or not path.is_dir():
-        raise typer.BadParameter(f"'{path}' is not a valid directory.")
-    if not (path / ".git").exists():
-        raise typer.BadParameter(f"'{path}' does not contain a .git folder.")
-    return path
-
-
 @app.command()
 def bundle(
-    src_dir: Path = typer.Argument(
+    src_repo: str = typer.Argument(
         ...,
-        exists=True,
-        file_okay=False,
-        dir_okay=True,
-        readable=True,
-        resolve_path=True,
-        callback=validate_directory,
-        help=f"Build an AgentGrunt zip file from a directory",
+        callback=valid_git_repo,
+        help="a local git repo or github url to agentgrunt-ify",
     ),
     preserve_history: bool = typer.Option(
         False,
@@ -46,9 +33,12 @@ def bundle(
         False, "--assume-yes", "-y", help="assume yes for all prompts"
     ),
 ):
-    temp_repo = clone_git_repo_to_temp_dir(src_dir, shallow=not preserve_history)
+    clone_url = get_clone_url(src_repo)
+    repo_name = get_clone_url(src_repo).split("/")[-1]
+
+    temp_repo = clone_git_repo_to_temp_dir(src_repo, shallow=not preserve_history)
     print(  # "\033[92m" +
-        f"Preparing to build '{src_dir.resolve().name}'..."
+        f"Preparing to build '{repo_name}'..."
         # + "\033[0m"
     )
 
@@ -65,11 +55,15 @@ def bundle(
 
     # download the linux git binary, make it executable
     git_binary_url = "https://github.com/nikvdp/1bin/releases/download/v0.0.20/git"
-    
+
     # Prepare the cache directory for git binary using XDG conventions from environment variables
-    git_cache_dir = Path(os.environ.get('XDG_CACHE_HOME', os.path.expanduser('~/.cache'))) / 'agentgrunt' / 'git_binary'
+    git_cache_dir = (
+        Path(os.environ.get("XDG_CACHE_HOME", os.path.expanduser("~/.cache")))
+        / "agentgrunt"
+        / "git_binary"
+    )
     git_cache_dir.mkdir(parents=True, exist_ok=True)
-    git_binary_dest_path = git_cache_dir / 'git'
+    git_binary_dest_path = git_cache_dir / "git"
 
     # Download the git binary only if it doesn't exist in the cache
     if not git_binary_dest_path.exists():
@@ -78,12 +72,11 @@ def bundle(
 
     shutil.copyfile(git_binary_dest_path, output_dir / "tools_for_ai" / "git")
 
-
     # create a tarball of output_dir, and once it's written move it to the
     # current PWD, and tell the user about it
     tarball_path = Path(tempfile.mktemp(suffix=".tar.gz"))
     tarball = create_tarball(output_dir, tarball_path)
-    destination = Path.cwd() / f"{src_dir.resolve().name}.tar.gz"
+    destination = Path.cwd() / f"{repo_name}.tar.gz"
     shutil.move(str(tarball), str(destination))
 
     final_msg = (

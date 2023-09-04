@@ -2,17 +2,73 @@ import os
 import tarfile
 import tempfile
 from pathlib import Path
+from typing import Union
+from urllib.parse import urlparse
 
 from plumbum.cmd import git
 from tqdm import tqdm
 
 
-def clone_git_repo_to_temp_dir(path_to_git_repo: Path, shallow: bool = True) -> Path:
-    # Ensure the directory exists and contains a .git folder
-    if not path_to_git_repo.exists() or not path_to_git_repo.is_dir():
-        raise ValueError(f"'{path_to_git_repo}' is not a valid directory.")
-    if not (path_to_git_repo / ".git").exists():
-        raise ValueError(f"'{path_to_git_repo}' does not contain a .git folder.")
+def is_github_url(value: str) -> bool:
+    if Path(value).exists() and Path(value).is_dir():
+        return False
+    parsed = urlparse(value)
+    if parsed.netloc == "github.com" and parsed.scheme in ["http", "https"]:
+        return True
+    # Check for shorthand notation
+    elif "/" in value and not parsed.scheme and not parsed.netloc:
+        return True
+    return False
+
+
+def valid_git_repo(value: str) -> str:
+    if (
+        Path(value).exists()
+        and Path(value).is_dir()
+        and (Path(value) / ".git").is_dir()
+    ):
+        return value
+    elif is_github_url(str(value)):
+        if "github.com" not in str(value):
+            # Convert shorthand to full URL
+            value = f"https://github.com/{value}"
+        return value
+    else:
+        raise ValueError(
+            f"'{value}' is neither an existing directory nor a valid GitHub URL."
+        )
+
+
+def get_clone_url(val: str) -> str:
+    """
+    Returns the URL to clone the repo.
+    """
+    if Path(val).exists() and Path(val).is_dir():
+        # file:// makes --depth work on local clones
+        return f"file://{Path(val).resolve()}"
+    elif is_github_url(val):
+        if "github.com" not in val:
+            return f"https://github.com/{val}.git"
+        else:
+            return f"{val}.git"
+    else:
+        raise ValueError(f"'{val}' is not a valid GitHub URL.")
+
+
+def clone_git_repo_to_temp_dir(git_repo: str, shallow: bool = True) -> Path:
+    is_local = True
+    if is_github_url(git_repo):
+        # Clone the repo to a temporary directory
+        local_repo = Path(tempfile.mkdtemp())
+        is_local = False
+    else:
+        local_repo = Path(git_repo)
+
+        # Ensure the directory exists and contains a .git folder
+        if not local_repo.exists() or not local_repo.is_dir():
+            raise ValueError(f"'{local_repo}' is not a valid directory.")
+        if not (local_repo / ".git").exists():
+            raise ValueError(f"'{local_repo}' does not contain a .git folder.")
 
     # Create a temporary directory
     temp_dir = Path(tempfile.mkdtemp())
@@ -21,16 +77,16 @@ def clone_git_repo_to_temp_dir(path_to_git_repo: Path, shallow: bool = True) -> 
     clone_command = ["clone"]
     if shallow:
         clone_command.extend(["--depth", "5"])  # TODO: make this configurable
-        checked_out_branch = git["rev-parse", "--abbrev-ref", "HEAD"](
-            cwd=path_to_git_repo.resolve()
-        ).strip()
-        if checked_out_branch:
-            clone_command.extend(["--branch", checked_out_branch])
+        if is_local:
+            checked_out_branch = git["rev-parse", "--abbrev-ref", "HEAD"](
+                cwd=local_repo.resolve()
+            ).strip()
+            if checked_out_branch:
+                clone_command.extend(["--branch", checked_out_branch])
 
     clone_command.extend(
         [
-            # file:// makes --depth work on local clones
-            "file://" + str(path_to_git_repo.resolve()),
+            get_clone_url(git_repo),
             str(temp_dir),
         ]
     )
