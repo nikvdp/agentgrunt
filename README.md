@@ -69,11 +69,13 @@ Now do the following:
 You'll see ChatGPT start to do some work, and after a few moments you'll be greeted with a message saying "Code Interpreter is now running AgentGrunt!" followed by a hotkey menu similar to the below:
 
 ```
-l) list changes made so far
-c) continue
-d) download changes
-r) reload (reload the readme)
-?) show this hotkey list
+c ) continue 
+d ) download changes as patch
+dr) download entire repo
+m ) show diff of last change
+r ) refresh/reload agentgrunt
+w ) work autonomously until complete
+? ) show this hotkey list
 ```
 
 Now just ask Code Interpreter to make some changes to your repo, and hit `d` when you're finished to download the changes it made to your local copy of the repo!
