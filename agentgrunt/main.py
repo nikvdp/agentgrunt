@@ -1,13 +1,14 @@
+import os
+import re
 import shutil
 import tempfile
 from pathlib import Path
 from textwrap import dedent
-from typing import Union
-import os
+
 import typer
 from plumbum import local
 
-from .repo_mgmt import valid_git_repo, get_clone_url, clone_git_repo_to_temp_dir
+from .repo_mgmt import clone_git_repo_to_temp_dir, get_clone_url, valid_git_repo
 from .utils import create_tarball, download_file, move_directory
 
 app = typer.Typer()
@@ -76,7 +77,8 @@ def bundle(
     # current PWD, and tell the user about it
     tarball_path = Path(tempfile.mktemp(suffix=".tar.gz"))
     tarball = create_tarball(output_dir, tarball_path)
-    destination = Path.cwd() / f"{repo_name}.tar.gz"
+    short_name = re.sub("\.git$", "", repo_name)
+    destination = Path.cwd() / f"{short_name}.tar.gz"
     shutil.move(str(tarball), str(destination))
 
     final_msg = (
