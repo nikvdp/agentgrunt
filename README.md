@@ -26,7 +26,7 @@ Upload the archive, paste in a two sentence prompt, wait a bit, and then sit bac
 
 - a valid ChatGPT Plus subscription and Code Interpreter enabled in ChatGPT's settings
 - a working installation of python 3.9 (or newer)
-- a local git repository that you'd like Code Interpreter to work on with you
+- a git repository that you'd like Code Interpreter to work on with you
 
 Once you have those in place, run:
 
@@ -40,13 +40,11 @@ If all goes well running `agentgrunt --help` will output something like this:
 Usage: agentgrunt [OPTIONS] COMMAND [ARGS]...
 
 Options:
-  --help                          Show this message and exit.
+  --help  Show this message and exit.
 
 Commands:
-  apply-remote-changes  (not implemented yet)
-  bundle
-  rebundle              (not implemented yet)
-
+  bundle               Bundle up a local or remote git repo
+  custom-instructions  Copy ChatGPT custom instructions to the clipboard
 ```
 
 ## Usage
