@@ -11,15 +11,14 @@ from plumbum import local
 from .repo_mgmt import clone_git_repo_to_temp_dir, get_clone_url, valid_git_repo
 from .utils import create_tarball, download_file, move_directory
 
-app = typer.Typer()
+app = typer.Typer(add_completion=False)
 
 
 @app.command()
 def bundle(
     src_repo: str = typer.Argument(
-        ...,
-        callback=valid_git_repo,
         help="a local git repo or github url to agentgrunt-ify",
+        callback=valid_git_repo,
     ),
     preserve_history: bool = typer.Option(
         False,
@@ -34,6 +33,7 @@ def bundle(
         False, "--assume-yes", "-y", help="assume yes for all prompts"
     ),
 ):
+    """Bundle up a local or remote git repo"""
     clone_url = get_clone_url(src_repo)
     repo_name = get_clone_url(src_repo).split("/")[-1]
 
