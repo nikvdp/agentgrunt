@@ -107,7 +107,7 @@ def bundle(
     print(final_msg)
     print(f"---\n{gpt_prompt}\n---")
 
-    if interactive and shutil.which("pbcopy"):
+    if interactive and local.which("pbcopy"):
         # prompt user if they want to copy it and reveal the file, then do it if they say yes
 
         copy = (
@@ -115,8 +115,7 @@ def bundle(
         )
         if copy:
             pbcopy = local["pbcopy"]
-            echo = local["echo"]
-            (echo[gpt_prompt] | pbcopy)()
+            (pbcopy << gpt_prompt)()
         open_finder = (
             True if assume_yes else typer.confirm("Reveal the file in Finder?")
         )
