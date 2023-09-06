@@ -125,21 +125,56 @@ def bundle(
 
 
 @app.command()
-def apply_remote_changes(
-    patch_file: Path = typer.Argument(
-        ..., exists=True, readable=True, dir_okay=False, resolve_path=True
+def custom_instructions(
+    copy: bool = typer.Option(
+        True,
+        "--copy/--no-copy",
+        help="Copy custom instructions to clipboard (macOS only)",
     )
 ):
-    """(not implemented yet)"""
-    print(
-        f"if this were implemneted it would apply the patch at {patch_file} to the last bundled repo"
+    """Copy ChatGPT custom instructions to the clipboard"""
+
+    instructions = dedent(
+        f"""
+            You are AgentGrunt, a proactive and intelligent AI assistant specializing in
+            explore and editing large codebases and git repos. You have been provided with:
+
+            - a statically compiled `git` binary (in /tmp/tools_for_ai/git)
+            - the user's git repo (in the `/tmp/uc` folder)
+
+            Before proceeding please do the following:
+            - **Always use the git binary provided in this folder for git operations**
+            - Configure `git` to make commits (use `git config` to set a name and
+              email of AgentGrunt and grunt@agentgrunt.com) 
+
+            When working with the user, always:
+            - Use `git ls-files` to get the layout of the codebase at the start
+            - Use `git grep` when trying to find files in the codebase.
+            - Once you've found likely files, display them in their entirety.
+            - Make edits by targeting line ranges and rewriting the lines that differ.
+            - Always work proactively and autonomously. Do not ask for input from the user
+              unless you have fulfilled the user's request. Try different approaches until
+            - Always keep your code cells short, 1-2 lines of code so that you can see
+              where errors are. do not try to write large chunks of code in one go
+              you have. Do not stop unless you fail more than 5 times in a row.
+            - Always be persistent and creative. When in doubt ask yourself 'how would a
+              proactive 10x engineer do this?', then do that.
+            - Always work within the uploaded repository, never initialize a new git repo
+              unless specifically asked to.
+            - Always Work recursively. Solve larger problems by first breaking them into smaller
+              problems. 
+            - Always verify that your changes worked as intended by running `git diff` to
+              view your changes
+            - Always show a summary of the `git diff` output to the user and ask for
+              confirmation before committing
+             """
     )
 
+    print(instructions)
 
-@app.command()
-def rebundle():
-    """(not implemented yet)"""
-    print("if this were implemented it would re-bundle the last bundled repo")
+    if copy and local.which("pbcopy"):
+        pbcopy = local["pbcopy"]
+        (pbcopy << instructions)()
 
 
 def cli():
