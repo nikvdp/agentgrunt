@@ -107,7 +107,7 @@ def bundle(
     print(final_msg)
     print(f"---\n{gpt_prompt}\n---")
 
-    if interactive and local.which("pbcopy"):
+    if interactive and shutil.which("pbcopy"):
         # prompt user if they want to copy it and reveal the file, then do it if they say yes
 
         copy = (
@@ -171,7 +171,7 @@ def custom_instructions(
 
     print(instructions)
 
-    if copy and local.which("pbcopy"):
+    if copy and shutil.which("pbcopy"):
         pbcopy = local["pbcopy"]
         (pbcopy << instructions)()
 
